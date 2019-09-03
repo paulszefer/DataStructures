@@ -31,7 +31,7 @@ public class List {
      * @param size the initial size of the list
      * @param value the value to fill each element with
      */
-    public List(int size, value) {};
+    public List(int size, int value) {};
 
     /**
      * Creates a list to hold the elements of the given list.
@@ -87,6 +87,7 @@ public class List {
      *
      * All subsequent elements will be shifted forward by one.
      *
+     * @param value the value of the element to insert
      * @param index the index of the newly inserted element
      */
     public void insert(int value, int index) {};
@@ -104,17 +105,17 @@ public class List {
      *
      * The range of elements removed is from {@code start} (inclusive) to {@code end} (exclusive).
      *
-     * <code>
-     * Eg. [0, 1, 2, 3, 4]
+     * <pre>{@code Eg. [0, 1, 2, 3, 4]
      *
      *   remove(0, 1) -> [0]
      *   remove(1, 4) -> [1, 2, 3]
-     *   remove(0, 4) -> [0, 1, 2, 3]
-     * </code>
+     *   remove(0, 4) -> [0, 1, 2, 3]}</pre>
      *
      * The size of the returned list will be equal to ({@code end} - {@code start}).
      *
-     * @param index the index of the element to remove
+     * @param start the index to start removing at (inclusive)
+     * @param end the index to stop removing at (exclusive)
+     * @return the removed element
      */
     public List remove(int start, int end) { return new List(); };
 
@@ -163,7 +164,7 @@ public class List {
      * @param change the value to add to each previous value to get the next
      * @param factor the value to multiply each previous value by to get the next
      */
-    public void fill(int startValue, int change, int factor) {};
+    public void fillCustom(int startValue, int change, int factor) {};
 
     /**
      * Empties the list.
