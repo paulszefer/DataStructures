@@ -6,6 +6,7 @@ public class List {
 
     public List() {};
     public List(int size) {};
+    public List(int size, value) {};
     public List(List list) {};
     public List(int[] array) {};
 
@@ -25,7 +26,11 @@ public class List {
     public List remove(int start, int end) { return new List(); };
     public int removeFirst() { return 0; };
     public int removeLast() { return 0; };
-    public void removeAll() { };
+
+    public void fill(int value) {};
+    public void fill(int value, int start) {};
+    public void fill(int value, int start, int end) {};
+    public void empty() {};
 
     private void increaseArraySize() {};
     private void increaseArraySize(double factor) {};
