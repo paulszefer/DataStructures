@@ -22,9 +22,10 @@ public class List {
     public void insert(int value, int index) {};
 
     public int remove(int index) { return 0; };
-    public int remove(int start, int end) { return 0; };
+    public List remove(int start, int end) { return new List(); };
     public int removeFirst() { return 0; };
     public int removeLast() { return 0; };
+    public void removeAll() { };
 
     private void increaseArraySize() {};
     private void increaseArraySize(double factor) {};
