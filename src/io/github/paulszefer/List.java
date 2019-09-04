@@ -19,13 +19,6 @@ public class List {
     public List() {};
 
     /**
-     * Creates a list to hold the elements of the given list.
-     *
-     * @param list the list of elements to hold
-     */
-    public List(List list) {};
-
-    /**
      * Creates a list to hold the elements of the given array.
      *
      * @param array the array of elements to hold
@@ -42,6 +35,11 @@ public class List {
      * @return the number of elements in the list
      */
     public int size() { return 0; };
+
+    /**
+     * @return a copy of the given list
+     */
+    public List copy() { return new List(); }
 
     /**
      * @return the first element in the list
