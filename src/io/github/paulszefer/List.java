@@ -1,5 +1,7 @@
 package io.github.paulszefer;
 
+import java.util.Arrays;
+
 /**
  * A list to hold elements.
  *
@@ -55,7 +57,7 @@ public class List {
      * @return a copy of the given list
      */
     public List copy() {
-        return new List(data);
+        return new List(Arrays.copyOfRange(data, 0, count));
     }
 
     /**
