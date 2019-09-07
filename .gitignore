@@ -2,3 +2,6 @@
 
 # Compiled files
 *.class
+
+# Javadocs
+javadoc/
