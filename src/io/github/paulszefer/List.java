@@ -64,10 +64,7 @@ public class List {
      * @return the first element in the list
      */
     public int first() {
-        if (count == 0) {
-            throw new ListEmptyException();
-        }
-
+        checkListEmpty();
         return data[0];
     };
 
@@ -75,10 +72,7 @@ public class List {
      * @return the last element in the list
      */
     public int last() {
-        if (count == 0) {
-            throw new ListEmptyException();
-        }
-
+        checkListEmpty();
         return data[count - 1];
     };
 
@@ -88,9 +82,8 @@ public class List {
      * @param index the index of the element to return
      */
     public int get(int index) {
-        if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkListEmpty();
+        checkIndexValid(index);
 
         return data[index];
     };
@@ -132,9 +125,7 @@ public class List {
      * @param index the index of the newly inserted element
      */
     public void insert(int value, int index) {
-        if (index < 0 || index > count) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkIndexValid(index);
 
         if (count == data.length) {
             increaseArraySize();
@@ -153,11 +144,8 @@ public class List {
      * @return the removed element
      */
     public int remove(int index) {
-        if (count == 0) {
-            throw new ListEmptyException();
-        } else if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkListEmpty();
+        checkIndexValid(index);
 
         int value = data[index];
         for (int i = index; i < count; i++) {
@@ -185,8 +173,25 @@ public class List {
      * @return the removed element
      */
     public List remove(int start, int end) {
-        // int[] elements =
-        return new List();
+        checkListEmpty();
+        if (start == end) {
+            return new List();
+        }
+        if (start > end) {
+            throw new IllegalArgumentException();
+        }
+
+        int[] removed = new int[end - start];
+        for (int i = 0; i < count; i++) {
+            if (i >= start && i < end) {
+                removed[i - start] = data[i];
+            } else if (i >= end) {
+                data[i - end + start] = data[i];
+            }
+        }
+        count -= end - start;
+
+        return new List(removed);
     };
 
     /**
@@ -194,14 +199,26 @@ public class List {
      *
      * @return the removed element
      */
-    public int removeFirst() { return 0; };
+    public int removeFirst() {
+        checkListEmpty();
+
+        int removed = first();
+        data = Arrays.copyOfRange(data, 1, count);
+        count--;
+
+        return removed;
+    };
 
     /**
      * Removes the last element from the list.
      *
      * @return the removed element
      */
-    public int removeLast() { return 0; };
+    public int removeLast() {
+        checkListEmpty();
+        count--;
+        return data[count];
+    };
 
     /**
      * Empties the list.
@@ -209,5 +226,25 @@ public class List {
     public void empty() {};
 
     // Increases the size of the internal storage array by a factor of two
-    private void increaseArraySize() {};
+    private void increaseArraySize() {
+        data = Arrays.copyOf(data, data.length * 2);
+    };
+
+    /**
+     * @throws a {@code ListEmptyException} if the list is empty.
+     */
+    private void checkListEmpty() {
+        if (count == 0) {
+            throw new ListEmptyException();
+        }
+    }
+
+    /**
+     * @throws a {@code IndexOutOfBoundsException} if the given index is invalid
+     */
+    private void checkIndexValid(int index) {
+        if (index < 0 || index > count) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
 }
