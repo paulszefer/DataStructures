@@ -13,18 +13,6 @@ public class List {
      */
     public static final int DEFAULT_STARTING_SIZE = 32;
 
-    /**
-     * Creates an empty list.
-     */
-    public List() {};
-
-    /**
-     * Creates a list to hold the elements of the given array.
-     *
-     * @param array the array of elements to hold
-     */
-    public List(int[] array) {};
-
     // Stores the elements in the list
     private int[] data;
 
@@ -32,38 +20,106 @@ public class List {
     private int count;
 
     /**
-     * @return the number of elements in the list
+     * Creates an empty list.
      */
-    public int size() { return 0; };
+    public List() {
+        data = new int[DEFAULT_STARTING_SIZE];
+        count = 0;
+    };
 
     /**
+     * Creates a list to hold the elements of the given array.
+     *
+     * @param array the array of elements to hold
+     */
+    public List(int[] array) {
+        data = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            data[i] = array[i];
+        }
+        count = array.length;
+    };
+
+    /**
+     * Returns the number of elements in the list.
+     *
+     * @return the number of elements in the list
+     */
+    public int size() {
+        return count;
+    };
+
+    /**
+     * Returns a copy of the given list.
+     *
      * @return a copy of the given list
      */
-    public List copy() { return new List(); }
+    public List copy() {
+        return new List(data);
+    }
 
     /**
      * @return the first element in the list
      */
-    public int first() { return 0; };
+    public int first() {
+        if (count == 0) {
+            throw new ListEmptyException();
+        }
+
+        return data[0];
+    };
 
     /**
      * @return the last element in the list
      */
-    public int last() { return 0; };
+    public int last() {
+        if (count == 0) {
+            throw new ListEmptyException();
+        }
+
+        return data[count - 1];
+    };
 
     /**
      * @return the nth element in the list
      *
      * @param index the index of the element to return
      */
-    public int get(int index) { return 0; };
+    public int get(int index) {
+        if (index < 0 || index >= count) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        return data[index];
+    };
 
     /**
      * Adds the element to the end of the list.
      *
      * @param value the value of the element to add
      */
-    public void add(int value) {};
+    public void add(int value) {
+        if (count >= data.length) {
+            increaseArraySize();
+        }
+        data[count] = value;
+        count++;
+    };
+
+    /**
+     * Adds the elements in {@code list} to the end of the list.
+     *
+     * @param list a list of elements to add to this list
+     */
+    public void add(List list) {
+        if (count + list.size() > data.length) {
+            increaseArraySize();
+        }
+        for (int i = 0; i < list.size(); i++) {
+            add(list.get(i));
+            count++;
+        }
+    };
 
     /**
      * Inserts the element into the list at the specified index.
@@ -73,7 +129,20 @@ public class List {
      * @param value the value of the element to insert
      * @param index the index of the newly inserted element
      */
-    public void insert(int value, int index) {};
+    public void insert(int value, int index) {
+        if (index < 0 || index > count) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (count == data.length) {
+            increaseArraySize();
+        }
+        for (int i = count - 1; i >= index; i--) {
+            data[i + 1] = data[i];
+        }
+        data[index] = value;
+        count++;
+    };
 
     /**
      * Removes the element from the list at the specified index.
@@ -81,7 +150,20 @@ public class List {
      * @param index the index of the element to remove
      * @return the removed element
      */
-    public int remove(int index) { return 0; };
+    public int remove(int index) {
+        if (count == 0) {
+            throw new ListEmptyException();
+        } else if (index < 0 || index >= count) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        int value = data[index];
+        for (int i = index; i < count; i++) {
+            data[i] = data[i + 1];
+        }
+        count--;
+        return value;
+    };
 
     /**
      * Removes the elements from the list between the given indices.
@@ -100,7 +182,10 @@ public class List {
      * @param end the index to stop removing at (exclusive)
      * @return the removed element
      */
-    public List remove(int start, int end) { return new List(); };
+    public List remove(int start, int end) {
+        // int[] elements =
+        return new List();
+    };
 
     /**
      * Removes the first element from the list.
@@ -123,7 +208,4 @@ public class List {
 
     // Increases the size of the internal storage array by a factor of two
     private void increaseArraySize() {};
-
-    // Increases the size of the internal storage array by the given factor
-    private void increaseArraySize(double factor) {};
 }
