@@ -1,7 +1,5 @@
 package io.github.paulszefer;
 
-import static io.github.paulszefer.TestAsserts.assertEqual;
-
 /**
  * A log that deals with passing and failing tests.
  */
