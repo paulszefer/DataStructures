@@ -22,4 +22,21 @@ public class TestAsserts {
             throw new TestException(String.format("Expected: %s, Actual: %s", expected, actual));
         }
     }
+
+    /**
+     * @throws TestException if the expected exception is not thrown
+     *
+     * @param expected the class of the expected exception
+     * @param executable the executable code
+     */
+    public static void assertThrows(Class expected, Executable executable) throws TestException, Exception {
+        try {
+            executable.execute();
+            throw new TestException(String.format("Expected: %s, Actual: %s", expected.getName(), "No exception"));
+        } catch (Exception e) {
+            if (!expected.isInstance(e)) {
+                throw new TestException(String.format("Expected: %s, Actual: %s", expected, e.getMessage()));
+            }
+        }
+    }
 }
