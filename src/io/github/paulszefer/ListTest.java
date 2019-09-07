@@ -5,9 +5,15 @@ import static io.github.paulszefer.TestAsserts.assertThrows;
 
 public class ListTest extends Test {
 
+    private static final int LIST1_SIZE = 0;
+    private static final int LIST2_SIZE = 6;
+    private static final int LIST3_SIZE = 5;
+    private static final int LIST4_SIZE = 31;
+
     private List list1;
     private List list2;
     private List list3;
+    private List list4;
 
     public void setUp() {
         list1 = new List();
@@ -16,6 +22,12 @@ public class ListTest extends Test {
         });
         list3 = new List(new int[] {
            3, 7, -1, -2, -10
+        });
+        list4 = new List(new int[] {
+           0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+           10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+           20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+           30
         });
     }
 
@@ -90,5 +102,97 @@ public class ListTest extends Test {
 
     public void test_last_List_GetsCorrectValue2() throws Exception {
         assertEqual(-10, list3.last());
+    }
+
+    public void test_get_EmptyList_ThrowsException() throws Exception {
+        assertThrows(ListEmptyException.class, list1::last);
+    }
+
+    public void test_get_List_NegativeIndex_ThrowsException() throws Exception {
+        assertThrows(IndexOutOfBoundsException.class, () -> list3.get(-1));
+    }
+
+    public void test_get_List_IndexTooHigh_ThrowsException() throws Exception {
+        assertThrows(IndexOutOfBoundsException.class, () -> list3.get(5));
+    }
+
+    public void test_get_List_StartIndex_GetsCorrectValue() throws Exception {
+        assertEqual(3, list3.get(0));
+    }
+
+    public void test_get_List_MiddleIndex_GetsCorrectValue() throws Exception {
+        assertEqual(7, list3.get(1));
+    }
+
+    public void test_get_List_EndIndex_GetsCorrectValue() throws Exception {
+        assertEqual(-10, list3.get(4));
+    }
+
+    public void test_add_EmptyList() throws Exception {
+        assertEqual(LIST1_SIZE, list1.size());
+        int value = 5;
+        list1.add(value);
+        assertEqual(LIST1_SIZE + 1, list1.size());
+        assertEqual(value, list1.get(0));
+    }
+
+    public void test_add_List() throws Exception {
+        assertEqual(LIST2_SIZE, list2.size());
+        int value = 10;
+        list2.add(value);
+        assertEqual(LIST2_SIZE + 1, list2.size());
+        assertEqual(value, list2.get(6));
+    }
+
+    public void test_add_List_ExtendsListSize() throws Exception {
+        assertEqual(LIST4_SIZE, list4.size());
+        int value = 15;
+        list4.add(value);
+        assertEqual(LIST4_SIZE + 1, list4.size());
+        assertEqual(value, list4.get(LIST4_SIZE));
+        list4.add(value + 1);
+        assertEqual(LIST4_SIZE + 2, list4.size());
+        assertEqual(value + 1, list4.get(LIST4_SIZE + 1));
+        list4.add(value + 2);
+        assertEqual(LIST4_SIZE + 3, list4.size());
+        assertEqual(value + 2, list4.get(LIST4_SIZE + 2));
+    }
+
+    public void test_insert_List_NegativeIndex_ThrowsException() throws Exception {
+        assertThrows(IndexOutOfBoundsException.class, () -> list2.insert(10, -1));
+    }
+
+    public void test_insert_List_IndexTooHigh_ThrowsException() throws Exception {
+        assertThrows(IndexOutOfBoundsException.class, () -> list2.insert(10, 5));
+    }
+
+    public void test_insert_List_StartIndex() throws Exception {
+        assertEqual(LIST3_SIZE, list3.size());
+        int value = 10;
+        list3.insert(value, 0);
+        assertEqual(LIST3_SIZE + 1, list3.size());
+        assertEqual(value, list3.get(0));
+        assertEqual(3, list3.get(1));
+        assertEqual(-10, list3.get(6));
+    }
+
+    public void test_insert_List_MiddleIndex() throws Exception {
+        assertEqual(LIST3_SIZE, list3.size());
+        int value = 10;
+        list3.insert(value, 1);
+        assertEqual(LIST3_SIZE + 1, list3.size());
+        assertEqual(3, list3.get(0));
+        assertEqual(value, list3.get(1));
+        assertEqual(-10, list3.get(6));
+    }
+
+    public void test_insert_List_EndIndex() throws Exception {
+        assertEqual(LIST3_SIZE, list3.size());
+        int value = 10;
+        list3.insert(value, 5);
+        assertEqual(LIST3_SIZE + 1, list3.size());
+        assertEqual(3, list3.get(0));
+        assertEqual(value, list3.get(5));
+        assertEqual(-10, list3.get(6));
     }
 }
