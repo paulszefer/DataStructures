@@ -13,6 +13,9 @@ public abstract class Test {
 
     // Prevent instantiation
     private Test() {}
+    /** Initializes a test. */
+    public Test() {
+    }
 
     /**
      * Runs all test methods for this class.
@@ -20,10 +23,30 @@ public abstract class Test {
      * @param log the log to print pass or fail messages to
      */
     public void runTests(TestLog log) {
-        for (Method method : getClass().getDeclaredMethods()) {
+        Method[] methods = getClass().getDeclaredMethods();
+        Arrays.sort(methods, new Sort());
+        for (Method method : methods) {
             if (isTestMethod(method)) {
                 runTest(method, log);
             }
+        }
+    /**
+     * Compares the names of given methods.
+     */
+    private class MethodComparator implements Comparator<Method>
+    {
+        /**
+         * Compares the names of the given methods.
+         *
+         * @param a the first method
+         * @param b the second method
+         *
+         * @returns a negative number if a comes before b, a postive number if b comes before a,
+         *   or 0 if they are equal
+         */
+        public int compare(Method a, Method b)
+        {
+            return a.getName().compareTo(b.getName());
         }
     }
 
@@ -54,7 +77,13 @@ public abstract class Test {
             method.invoke(this, (Object[])null);
             log.pass(method.getName());
         } catch (InvocationTargetException e) {
-            log.fail(method.getName(), e.getTargetException().getMessage());
+            Throwable targetexception = e.getTargetException();
+            if (TestException.class.isInstance(targetexception)) {
+                log.fail(method.getName(), targetexception.getMessage());
+                passing = false;
+            } else {
+                log.fail(method.getName(), targetexception.toString());
+            }
         } catch (IllegalAccessException e) {
             log.fail(method.getName(), e.getMessage());
         }
