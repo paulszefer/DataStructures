@@ -24,7 +24,7 @@ public abstract class Test {
      */
     public void runTests(TestLog log) {
         Method[] methods = getClass().getDeclaredMethods();
-        Arrays.sort(methods, new Sort());
+        Arrays.sort(methods, new MethodComparator());
         for (Method method : methods) {
             if (isTestMethod(method)) {
                 runTest(method, log);
