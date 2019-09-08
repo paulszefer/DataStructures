@@ -130,6 +130,7 @@ public class List {
         if (count == data.length) {
             increaseArraySize();
         }
+
         for (int i = count - 1; i >= index; i--) {
             data[i + 1] = data[i];
         }
@@ -148,7 +149,7 @@ public class List {
         checkIndexValid(index);
 
         int value = data[index];
-        for (int i = index; i < count; i++) {
+        for (int i = index; i < count - 1; i++) {
             data[i] = data[i + 1];
         }
         count--;
@@ -174,12 +175,18 @@ public class List {
      */
     public List remove(int start, int end) {
         checkListEmpty();
-        if (start == end) {
-            return new List();
-        }
+
+        checkIndexValid(start);
+
         if (start > end) {
             throw new IllegalArgumentException();
         }
+
+        if (start == end) {
+            return new List();
+        }
+
+        checkIndexValid(end - 1);
 
         int[] removed = new int[end - start];
         for (int i = 0; i < count; i++) {
@@ -223,7 +230,9 @@ public class List {
     /**
      * Empties the list.
      */
-    public void empty() {};
+    public void empty() {
+        count = 0;
+    };
 
     // Increases the size of the internal storage array by a factor of two
     private void increaseArraySize() {
@@ -243,7 +252,7 @@ public class List {
      * @throws a {@code IndexOutOfBoundsException} if the given index is invalid
      */
     private void checkIndexValid(int index) {
-        if (index < 0 || index > count) {
+        if (index < 0 || index >= count) {
             throw new IndexOutOfBoundsException();
         }
     }
