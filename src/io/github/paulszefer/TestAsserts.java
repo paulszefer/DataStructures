@@ -32,11 +32,12 @@ public class TestAsserts {
     public static void assertThrows(Class expected, Executable executable) throws TestException, Exception {
         try {
             executable.execute();
-            throw new TestException(String.format("Expected: %s, Actual: %s", expected.getName(), "No exception"));
         } catch (Exception e) {
             if (!expected.isInstance(e)) {
                 throw new TestException(String.format("Expected: %s, Actual: %s", expected, e.toString()));
             }
+            return;
         }
+        throw new TestException(String.format("Expected: %s, Actual: %s", expected.getSimpleName(), "No exception"));
     }
 }
