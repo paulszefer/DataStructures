@@ -35,7 +35,7 @@ public class TestAsserts {
             throw new TestException(String.format("Expected: %s, Actual: %s", expected.getName(), "No exception"));
         } catch (Exception e) {
             if (!expected.isInstance(e)) {
-                throw new TestException(String.format("Expected: %s, Actual: %s", expected, e.getMessage()));
+                throw new TestException(String.format("Expected: %s, Actual: %s", expected, e.toString()));
             }
         }
     }
