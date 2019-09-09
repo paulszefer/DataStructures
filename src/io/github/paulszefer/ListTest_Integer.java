@@ -32,26 +32,33 @@ public class ListTest_Integer extends Test {
     }
 
     public void test_List_IsEmpty() throws Exception {
-        list1 = new List<>();
-        assertEqual(0, list1.size());
+        List<Integer> list = new List<>();
+        assertEqual(0, list.size());
     }
 
     public void test_List_EmptyArray_ListIsEmpty() throws Exception {
         Integer[] arr = new Integer[] { };
-        list1 = new List<>(arr);
-        assertEqual(0, list1.size());
+        List<Integer> list = new List<>(arr);
+        assertEqual(0, list.size());
+    }
+
+    public void test_List_Array_HasCorrectValues() throws Exception {
+        Integer[] arr = new Integer[] { 6, 2 };
+        List<Integer> list = new List<>(arr);
+        assertEqual(6, list.get(0));
+        assertEqual(2, list.get(1));
     }
 
     public void test_List_Array_HasCorrectSize() throws Exception {
         Integer[] arr = new Integer[] { 0, 1 };
-        list1 = new List<>(arr);
-        assertEqual(2, list1.size());
+        List<Integer> list = new List<>(arr);
+        assertEqual(2, list.size());
     }
 
     public void test_List_Array_HasCorrectSize2() throws Exception {
         Integer[] arr = new Integer[] { -2, -3, -4 };
-        list1 = new List<>(arr);
-        assertEqual(3, list1.size());
+        List<Integer> list = new List<>(arr);
+        assertEqual(3, list.size());
     }
 
     public void test_copy_EmptyList_CreatesEmptyList() throws Exception {
