@@ -8,7 +8,7 @@ import java.util.Arrays;
  * @author Paul Szefer
  * @version 1.0
  */
-public class List {
+public class List<T> {
 
     /**
      * The default starting size of the list.
@@ -16,7 +16,7 @@ public class List {
     public static final int DEFAULT_STARTING_SIZE = 32;
 
     // Stores the elements in the list
-    private int[] data;
+    private Object[] data;
 
     // The number of elements in the list
     private int count;
@@ -25,7 +25,7 @@ public class List {
      * Creates an empty list.
      */
     public List() {
-        data = new int[DEFAULT_STARTING_SIZE];
+        data = new Object[DEFAULT_STARTING_SIZE];
         count = 0;
     };
 
@@ -34,8 +34,8 @@ public class List {
      *
      * @param array the array of elements to hold
      */
-    public List(int[] array) {
-        data = new int[array.length];
+    public List(T[] array) {
+        data = new Object[array.length];
         for (int i = 0; i < array.length; i++) {
             data[i] = array[i];
         }
@@ -56,24 +56,36 @@ public class List {
      *
      * @return a copy of the given list
      */
-    public List copy() {
-        return new List(Arrays.copyOfRange(data, 0, count));
+    public List<T> copy() {
+        List<T> copy = new List<>();
+        for (int i = 0; i < count; i++) {
+            @SuppressWarnings("unchecked")
+            T value = (T)data[i];
+            copy.add(value);
+        }
+        return copy;
     }
 
     /**
      * @return the first element in the list
      */
-    public int first() {
+    public T first() {
         checkListEmpty();
-        return data[0];
+
+        @SuppressWarnings("unchecked")
+        T value = (T)data[0];
+        return value;
     };
 
     /**
      * @return the last element in the list
      */
-    public int last() {
+    public T last() {
         checkListEmpty();
-        return data[count - 1];
+
+        @SuppressWarnings("unchecked")
+        T value = (T)data[count - 1];
+        return value;
     };
 
     /**
@@ -81,11 +93,13 @@ public class List {
      *
      * @param index the index of the element to return
      */
-    public int get(int index) {
+    public T get(int index) {
         checkListEmpty();
         checkIndexValid(index);
 
-        return data[index];
+        @SuppressWarnings("unchecked")
+        T value = (T)data[index];
+        return value;
     };
 
     /**
@@ -93,7 +107,7 @@ public class List {
      *
      * @param value the value of the element to add
      */
-    public void add(int value) {
+    public void add(T value) {
         if (count >= data.length) {
             increaseArraySize();
         }
@@ -106,12 +120,14 @@ public class List {
      *
      * @param list a list of elements to add to this list
      */
-    public void add(List list) {
+    public void add(List<T> list) {
         if (count + list.size() > data.length) {
             increaseArraySize();
         }
         for (int i = 0; i < list.size(); i++) {
-            add(list.get(i));
+            @SuppressWarnings("unchecked")
+            T value = list.get(i);
+            add(value);
             count++;
         }
     };
@@ -124,7 +140,7 @@ public class List {
      * @param value the value of the element to insert
      * @param index the index of the newly inserted element
      */
-    public void insert(int value, int index) {
+    public void insert(T value, int index) {
         checkIndexValid(index);
 
         if (count == data.length) {
@@ -144,11 +160,12 @@ public class List {
      * @param index the index of the element to remove
      * @return the removed element
      */
-    public int remove(int index) {
+    public T remove(int index) {
         checkListEmpty();
         checkIndexValid(index);
 
-        int value = data[index];
+        @SuppressWarnings("unchecked")
+        T value = (T)data[index];
         for (int i = index; i < count - 1; i++) {
             data[i] = data[i + 1];
         }
@@ -173,7 +190,7 @@ public class List {
      * @param end the index to stop removing at (exclusive)
      * @return the removed element
      */
-    public List remove(int start, int end) {
+    public List<T> remove(int start, int end) {
         checkListEmpty();
 
         checkIndexValid(start);
@@ -183,22 +200,24 @@ public class List {
         }
 
         if (start == end) {
-            return new List();
+            return new List<>();
         }
 
         checkIndexValid(end - 1);
 
-        int[] removed = new int[end - start];
+        List<T> removed = new List<>();
         for (int i = 0; i < count; i++) {
             if (i >= start && i < end) {
-                removed[i - start] = data[i];
+                @SuppressWarnings("unchecked")
+                T value = (T)data[i];
+                removed.add(value);
             } else if (i >= end) {
                 data[i - end + start] = data[i];
             }
         }
         count -= end - start;
 
-        return new List(removed);
+        return removed;
     };
 
     /**
@@ -206,10 +225,10 @@ public class List {
      *
      * @return the removed element
      */
-    public int removeFirst() {
+    public T removeFirst() {
         checkListEmpty();
 
-        int removed = first();
+        T removed = first();
         data = Arrays.copyOfRange(data, 1, count);
         count--;
 
@@ -221,10 +240,13 @@ public class List {
      *
      * @return the removed element
      */
-    public int removeLast() {
+    public T removeLast() {
         checkListEmpty();
         count--;
-        return data[count];
+
+        @SuppressWarnings("unchecked")
+        T value = (T)data[count];
+        return value;
     };
 
     /**
