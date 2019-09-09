@@ -23,6 +23,7 @@ public abstract class Test {
      * @param log the log to print pass or fail messages to
      */
     public void runTests(TestLog log) {
+        log.writeLine("--- " + getClass().getSimpleName() + " ---");
         Method[] methods = getClass().getDeclaredMethods();
         Arrays.sort(methods, new MethodComparator());
         for (Method method : methods) {

@@ -6,7 +6,8 @@ public class TestFramework {
 
     public static void main(String[] args) {
         tests = new Test[] {
-            new ListTest_Integer()
+            new ListTest_Integer(),
+            new ListTest_String()
         };
         run();
     }
