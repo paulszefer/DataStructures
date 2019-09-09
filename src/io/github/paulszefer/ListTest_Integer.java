@@ -3,27 +3,27 @@ package io.github.paulszefer;
 import static io.github.paulszefer.TestAsserts.assertEqual;
 import static io.github.paulszefer.TestAsserts.assertThrows;
 
-public class ListTest extends Test {
+public class ListTest_Integer extends Test {
 
     private static final int LIST1_SIZE = 0;
     private static final int LIST2_SIZE = 6;
     private static final int LIST3_SIZE = 5;
     private static final int LIST4_SIZE = 31;
 
-    private List list1;
-    private List list2;
-    private List list3;
-    private List list4;
+    private List<Integer> list1;
+    private List<Integer> list2;
+    private List<Integer> list3;
+    private List<Integer> list4;
 
     public void setUp() {
-        list1 = new List();
-        list2 = new List(new int[] {
+        list1 = new List<>();
+        list2 = new List<>(new Integer[] {
            0, 1, 2, 3, 4, 5
         });
-        list3 = new List(new int[] {
+        list3 = new List<>(new Integer[] {
            3, 7, -1, -2, -10
         });
-        list4 = new List(new int[] {
+        list4 = new List<>(new Integer[] {
            0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
            10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
            20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -32,35 +32,35 @@ public class ListTest extends Test {
     }
 
     public void test_List_IsEmpty() throws Exception {
-        list1 = new List();
+        list1 = new List<>();
         assertEqual(0, list1.size());
     }
 
     public void test_List_EmptyArray_ListIsEmpty() throws Exception {
-        int[] arr = new int[] { };
-        list1 = new List(arr);
+        Integer[] arr = new Integer[] { };
+        list1 = new List<>(arr);
         assertEqual(0, list1.size());
     }
 
     public void test_List_Array_HasCorrectSize() throws Exception {
-        int[] arr = new int[] { 0, 1 };
-        list1 = new List(arr);
+        Integer[] arr = new Integer[] { 0, 1 };
+        list1 = new List<>(arr);
         assertEqual(2, list1.size());
     }
 
     public void test_List_Array_HasCorrectSize2() throws Exception {
-        int[] arr = new int[] { -2, -3, -4 };
-        list1 = new List(arr);
+        Integer[] arr = new Integer[] { -2, -3, -4 };
+        list1 = new List<>(arr);
         assertEqual(3, list1.size());
     }
 
     public void test_copy_EmptyList_CreatesEmptyList() throws Exception {
-        List list = list1.copy();
+        List<Integer> list = list1.copy();
         assertEqual(0, list.size());
     }
 
     public void test_copy_List_CreatesCorrectList() throws Exception {
-        List list = list2.copy();
+        List<Integer> list = list2.copy();
         assertEqual(6, list.size());
         assertEqual(0, list.get(0));
         assertEqual(1, list.get(1));
@@ -71,7 +71,7 @@ public class ListTest extends Test {
     }
 
     public void test_copy_List_CreatesCorrectList2() throws Exception {
-        List list = list3.copy();
+        List<Integer> list = list3.copy();
         assertEqual(  5, list.size());
         assertEqual(  3, list.get(0));
         assertEqual(  7, list.get(1));
@@ -242,7 +242,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_StartIndexEqualToEndIndex_ReturnsEmptyList() throws Exception {
         int start = 0;
         int end = 0;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(0, list.size());
     }
 
@@ -253,7 +253,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_RemoveOneFromStart() throws Exception {
         int start = 0;
         int end = 1;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(LIST3_SIZE - 1, list3.size());
         assertEqual(3, list.get(0));
         assertEqual(7, list3.get(0));
@@ -265,7 +265,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_RemoveOneFromMiddle() throws Exception {
         int start = 1;
         int end = 2;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(LIST3_SIZE - 1, list3.size());
         assertEqual(7, list.get(0));
         assertEqual(3, list3.get(0));
@@ -277,7 +277,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_RemoveOneFromEnd() throws Exception {
         int start = LIST3_SIZE - 1;
         int end = LIST3_SIZE;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(LIST3_SIZE - 1, list3.size());
         assertEqual(-10, list.get(0));
         assertEqual(3, list3.get(0));
@@ -289,7 +289,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_RemoveMultipleFromStart() throws Exception {
         int start = 0;
         int end = 3;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(LIST3_SIZE - end + start, list3.size());
         assertEqual(3, list.get(0));
         assertEqual(7, list.get(1));
@@ -301,7 +301,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_RemoveMultipleFromMiddle() throws Exception {
         int start = 1;
         int end = 3;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(LIST3_SIZE - end + start, list3.size());
         assertEqual(7, list.get(0));
         assertEqual(-1, list.get(1));
@@ -313,7 +313,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_RemoveMultipleFromEnd() throws Exception {
         int start = 2;
         int end = LIST3_SIZE;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(LIST3_SIZE - end + start, list3.size());
         assertEqual(-1, list.get(0));
         assertEqual(-2, list.get(1));
@@ -325,7 +325,7 @@ public class ListTest extends Test {
     public void test_remove_start_end_List_RemoveAll() throws Exception {
         int start = 0;
         int end = LIST3_SIZE;
-        List list = list3.remove(start, end);
+        List<Integer> list = list3.remove(start, end);
         assertEqual(0, list3.size());
         assertEqual(3, list.get(0));
         assertEqual(7, list.get(1));
